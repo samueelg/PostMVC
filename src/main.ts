@@ -1,7 +1,7 @@
 // src/main.ts
 import express, { type Request, type Response } from "express";
 import IndexController from "./Controller/IndexController.js";
-import PostController from "./Controller/PostController.js";
+import PostsController from "./Controller/PostsController.js";
 import {default as PostCreateController} from "./Controller/Post/CreateController.js";
 import { default as UserCreateController } from "./Controller/User/CreateController.js";
 import UserController from "./Controller/UserController.js";
@@ -43,10 +43,14 @@ app.get("/",async (req: Request, res: Response) => {
     return indexController.execute();
 });
 
-app.get("/post", (req: Request, res: Response) => {
-    let postController: PostController = new PostController(req, res);
-    return postController.execute();
+app.get("/posts", (req: Request, res: Response) => {
+    let postsController: PostsController = new PostsController(req, res);
+    return postsController.execute();
 });
+
+app.get("/post/:id", (req: Request, res: Response) => {
+
+})
 
 app.get("/post/create", (req: Request, res: Response) => {
     let postController: PostCreateController = new PostCreateController(req, res);

@@ -15,7 +15,17 @@ export abstract class AbstractController {
      * @returns {Request} Retorna a requisição processada.
      * @abstract
      */
-    public abstract execute(): Request;
+    public async execute(): Promise<void> {
+        try {
+            // Implementação genérica (pode ser sobrescrita)
+            this.response.json({
+                method: this.getMethod(),
+                params: this.getParams()
+            });
+        } catch (error: any) {
+            this.response.status(500).json({ error: error.message });
+        }
+    }
 
     /**
      * Recupera os parâmetros da requisição.
@@ -23,7 +33,13 @@ export abstract class AbstractController {
      * @returns {any} Retorna os parâmetros da requisição.
      * @abstract
      */
-    public abstract getParams(): any;
+    public getParams(): any {
+        return {
+            ...this.request.params,
+            ...this.request.query,
+            ...this.request.body
+        };
+    }
 
     /**
      * Recupera o método HTTP da requisição.
@@ -31,6 +47,7 @@ export abstract class AbstractController {
      * @return {string} Retorna o método HTTP da requisição.
      * @abstract
      */
-    public abstract getMethod(): string;
-
+    public getMethod(): string {
+        return this.request.method;
+    }
 }
