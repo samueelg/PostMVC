@@ -4,10 +4,11 @@ import Post from "../Model/Post.js";
 import { AbstractController } from "./AbstractController.js";
 
 export default class PostController extends AbstractController{
-    private request: Request;
-    private response: Response;
+    protected request: Request;
+    protected response: Response;
 
     constructor(req: Request, res: Response) {
+        super(req, res);
         this.request = req;
         this.response = res;
     }
